@@ -2,7 +2,7 @@
 const auth0Client = await createAuth0Client({
     domain: "dev-oq5dze4x3q2c2m4h.us.auth0.com", // Remplace par ton domaine Auth0
     client_id: "WncrlkAlfiVpflLlWq06izv9gaqI9GVI",     // Remplace par ton client ID
-    redirect_uri: window.location.origin
+    redirect_uri: "https://usedzqd17.github.io/bacfr/#"
   });
   
   // Fonction pour afficher le statut de l'utilisateur
