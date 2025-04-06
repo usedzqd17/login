@@ -1,0 +1,13 @@
+{
+    "users": [
+      {
+        "username": "raph",
+        "password": "test"
+      },
+      {
+        "username": "user2",
+        "password": "mySecurePass"
+      }
+    ]
+  }
+  
