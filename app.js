@@ -27,4 +27,24 @@ document.getElementById('login-form').addEventListener('submit', function (event
         console.error('Erreur lors de la récupération des données utilisateur:', error);
       });
   });
+
+const users = [
+    { username: "user", password: "pass" },
+    { username: "user2", password: "password2" }
+];
+
+document.getElementById('login-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const user = users.find(user => user.username === username && user.password === password);
+
+    if (user) {
+        window.location.href = 'https://usedzqd17.github.io/bacfr/';
+    } else {
+        document.getElementById('error-message').style.display = 'block';
+    }
+});
   
