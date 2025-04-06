@@ -1,6 +1,25 @@
-<form id="login-form">
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="password" id="password" placeholder="Mot de passe" required>
-    <button type="submit">Se connecter</button>
-  </form>
-  
+
+<!-- Auth0 SDK -->
+<script src="https://cdn.auth0.com/js/auth0-spa-js/1.19/auth0-spa-js.production.js"></script>
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion - Mon Site</title>
+  <script src="https://cdn.auth0.com/js/auth0-spa-js/1.19/auth0-spa-js.production.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <h1>Connexion</h1>
+
+  <!-- Formulaire de connexion -->
+  <button id="login">Se connecter</button>
+  <button id="logout" style="display: none;">Se déconnecter</button>
+
+  <!-- Message d'erreur -->
+  <p id="error-message"></p>
+</body>
+</html>
