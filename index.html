@@ -1,28 +1,58 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page de Connexion</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR to PC Scanner</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; background: #f4f4f9; }
+        #reader { width: 100%; max-width: 500px; margin: auto; border-radius: 10px; overflow: hidden; }
+        .status { margin-top: 20px; padding: 15px; border-radius: 5px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    </style>
 </head>
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
 
-  <h1></h1>
-  
-  <form id="login-form">
-    <label for="username">Nom d'utilisateur</label><br>
-    <input type="text" id="username" required><br><br>
-    
-    <label for="password">Mot de passe</label><br>
-    <input type="password" id="password" required><br><br>
-    
-    <button type="submit">Se connecter</button>
-  </form>
+    <h2>Scan & Open on PC</h2>
+    <div id="reader"></div>
+    <div class="status" id="result">Prêt à scanner...</div>
 
-  <p id="error-message" style="color: red; display: none;">Nom d'utilisateur ou mot de passe incorrect</p>
+    <script>
+        const FIREBASE_URL = "https://qr-codelinker-default-rtdb.europe-west1.firebasedatabase.app/lien_a_ouvrir.json";
 
-  <script src="app.js"></script>
+        function envoyerAuPC(monLien) {
+            document.getElementById('result').innerText = "Envoi en cours...";
+            
+            fetch(FIREBASE_URL, {
+                method: "PUT",
+                body: JSON.stringify(monLien)
+            })
+            .then(() => {
+                document.getElementById('result').innerText = "✅ Envoyé : " + monLien;
+                // Optionnel : on peut faire vibrer le tel pour confirmer
+                if (navigator.vibrate) navigator.vibrate(200);
+            })
+            .catch(err => {
+                document.getElementById('result').innerText = "❌ Erreur : " + err;
+                console.error(err);
+            });
+        }
+
+        // Configuration du scanner
+        function onScanSuccess(decodedText, decodedResult) {
+            // Pour éviter d'envoyer 50 fois le même lien à la suite
+            if (window.lastScan !== decodedText) {
+                window.lastScan = decodedText;
+                envoyerAuPC(decodedText);
+            }
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner("reader", { 
+            fps: 10, 
+            qrbox: {width: 250, height: 250} 
+        });
+        
+        html5QrcodeScanner.render(onScanSuccess);
+    </script>
 </body>
 </html>
